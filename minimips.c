@@ -7,7 +7,7 @@ typedef enum {tipo_I, tipo_J, tipo_R, tipo_OUTROS} Tipo_inst;
 
 typedef struct{
 	Tipo_inst tipo_inst;
-	char inst_char[20];
+	char inst_char[18];
 	int opcode;
 	int rs;
 	int rt;
