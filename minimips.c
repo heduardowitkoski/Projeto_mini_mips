@@ -92,3 +92,4 @@ void preencher_memoria(FILE *file_mem, Instrucao *memoria, int linhas_mem){
 	for (int i=0; i < linhas_mem; i++)
 		fgets(memoria[i].inst_char, sizeof(memoria[i].inst_char), file_mem);
 }
+//
