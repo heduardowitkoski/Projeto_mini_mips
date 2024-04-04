@@ -7,7 +7,7 @@ typedef enum {tipo_I, tipo_J, tipo_R, tipo_OUTROS} Tipo_inst;
 
 typedef struct{
 	Tipo_inst tipo_inst;
-	char inst_char[17];
+	char inst_char[20];
 	int opcode;
 	int rs;
 	int rt;
@@ -86,32 +86,9 @@ return 0;
 }
 
 
+
+
 void preencher_memoria(FILE *file_mem, Instrucao *memoria, int linhas_mem){
-	char linha[20];
-	for (int i=0; i< linhas_mem; i++)
-	{
-		fgets(linha, sizeof(linha), file_mem);
-		strcpy(memoria[i].inst_char, linha);
-	}
+	for (int i=0; i < linhas_mem; i++)
+		fgets(memoria[i].inst_char, sizeof(memoria[i].inst_char), file_mem);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
