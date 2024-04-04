@@ -10,8 +10,8 @@ typedef struct{
 	char inst_char[18];
 	int opcode;
 	char rs[4];
-	int rt;
-	int rd;
+	char rt[4];
+	char rd[4];
 	int funct;
 	int imm;
 	int addr;
@@ -86,6 +86,8 @@ int main(){
 	for(int i=0; i<linhas_mem; i++)
 	{
 		printf("%s\n",instrucoes[i].rs);
+		printf("%s\n",instrucoes[i].rt);
+		printf("%s\n",instrucoes[i].rd);
 	}
 	
 	fclose(file_mem);
@@ -111,6 +113,8 @@ void distribuir_campos(Instrucao *memoria, int linhas_mem){
 		{
 			case tipo_R:
 				strncpy(memoria[i].rs, memoria[i].inst_char + 4, 3);
+				strncpy(memoria[i].rt, memoria[i].inst_char + 7, 3);
+				strncpy(memoria[i].rd, memoria[i].inst_char + 10, 3);
 				break;
 		}
 
@@ -124,7 +128,3 @@ void distribuir_campos(Instrucao *memoria, int linhas_mem){
 
 
 }
-
-	
-
-
