@@ -3,18 +3,18 @@
 #include <string.h>
 
 
-typedef enum {tipo_I_addi = 0100, tipo_I_lw = 1011, tipo_I_beq = 1000, tipo_I_sw = 1111, tipo_J, tipo_R = 0000, tipo_OUTROS} Tipo_inst;
+typedef enum {tipo_R = 0, tipo_I = 1, tipo_J = 2} Tipo_inst;
 
 typedef struct{
 	Tipo_inst tipo_inst;
 	char inst_char[18];
-	int opcode;
+	char opcode[5];
 	char rs[4];
 	char rt[4];
 	char rd[4];
-	int funct;
-	int imm;
-	int addr;
+	char funct[4];
+	char imm[7];
+	char addr[8];
 }Instrucao;
 
 typedef struct{
@@ -83,13 +83,32 @@ int main(){
 	}
 	
 	distribuir_campos(instrucoes, linhas_mem);
-	for(int i=0; i<linhas_mem; i++)
+	puts("\n||||||||||||||||||||||||||||||||||||||||||||");
+	puts("TIPO R");
+	for(int i=2; i<=3; i++)
 	{
-		printf("%s\n",instrucoes[i].rs);
-		printf("%s\n",instrucoes[i].rt);
-		printf("%s\n",instrucoes[i].rd);
+		putchar('\n');
+		printf("Opcode %s\n", instrucoes[i].opcode);
+		printf("RS %s\n",instrucoes[i].rs);
+		printf("RT %s\n",instrucoes[i].rt);
+		printf("RD %s\n",instrucoes[i].rd);
+		printf("funct %s\n",instrucoes[i].funct);
 	}
-	
+	putchar('\n');
+	puts("||||||||||||||||||||||||||||||||||||||||||||");
+	puts("TIPO I");
+	for(int i=0; i<=1; i++)
+	{
+		printf("Opcode %s\n", instrucoes[i].opcode);
+		printf("RS %s\n", instrucoes[i].rs);
+		printf("RT %s\n", instrucoes[i].rt);
+		printf("imm %s\n\n", instrucoes[i].imm);
+	}
+	puts("||||||||||||||||||||||||||||||||||||||||||||");
+	puts("TIPO J");
+		printf("Opcode %s\n", instrucoes[10].opcode);
+		printf("addr %s\n", instrucoes[10].addr);
+
 	fclose(file_mem);
 return 0;
 }
@@ -104,17 +123,31 @@ void preencher_memoria(FILE *file_mem, Instrucao *memoria, int linhas_mem){
 
 
 void distribuir_campos(Instrucao *memoria, int linhas_mem){
-	char opcode_temp[5];
+	
 	for(int i=0; i<linhas_mem; i++)
 	{
-		strncpy(opcode_temp, memoria[i].inst_char, 4);
-		memoria[i].opcode = atoi(opcode_temp);
-		switch (memoria[i].opcode)
+		strncpy(memoria[i].opcode, memoria[i].inst_char, 4);
+		if(strcmp(memoria[i].opcode, "0000") == 0)
+			memoria[i].tipo_inst = tipo_R;
+		else if(strcmp(memoria[i].opcode, "0100") == 0 || strcmp(memoria[i].opcode, "1011") == 0 || strcmp(memoria[i].opcode, "1111") == 0 || strcmp(memoria[i].opcode, "1000") == 0)
+			memoria[i].tipo_inst = tipo_I;
+		else if(strcmp(memoria[i].opcode, "0010") == 0)
+			memoria[i].tipo_inst = tipo_J;
+		switch (memoria[i].tipo_inst)
 		{
 			case tipo_R:
 				strncpy(memoria[i].rs, memoria[i].inst_char + 4, 3);
 				strncpy(memoria[i].rt, memoria[i].inst_char + 7, 3);
 				strncpy(memoria[i].rd, memoria[i].inst_char + 10, 3);
+				strncpy(memoria[i].funct, memoria[i].inst_char + 13, 3);
+				break;
+			case tipo_I:
+				strncpy(memoria[i].rs, memoria[i].inst_char + 4, 3);
+				strncpy(memoria[i].rt, memoria[i].inst_char + 7, 3);
+				strncpy(memoria[i].imm, memoria[i].inst_char + 10, 6);
+				break;
+			case tipo_J:
+				strncpy(memoria[i].addr, memoria[i].inst_char + 9, 7);
 				break;
 		}
 
