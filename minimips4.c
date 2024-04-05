@@ -120,10 +120,8 @@ return 0;
 
 void preencher_memoria_inst(FILE *file_mem, Instrucao *memoria_inst, int linhas_mem){
 	for (int i=0; i < linhas_mem; i++)
-	{
 		fgets(memoria_inst[i].inst_char, sizeof(memoria_inst[i].inst_char), file_mem);
-		memoria_inst[i].inst_char[strcspn(memoria_inst[i].inst_char, "\n")] = '\0';
-	}
+
 }
 
 
