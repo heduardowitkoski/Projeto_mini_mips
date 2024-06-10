@@ -423,7 +423,7 @@ void imprimeregistradores(int *registradores) {
 
 void imprimeMemoriadados(int *dados) {
     puts("MEMORIA DE DADOS:");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 16; j++)
             printf("%d  ", dados[i * 16 + j]);
         putchar('\n');
